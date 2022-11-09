@@ -7,7 +7,7 @@
 
 ## Création des tables
 
-Télécharger l'extension `cweijan.vscode-mysql-client2` sur vscode (osef des autres IDE)
+Télécharger l'extension `cweijan.vscode-mysql-client2` sur vscode (osef des autres IDE genre PHPStorm)
 
 Se connecter à la bdd
 
