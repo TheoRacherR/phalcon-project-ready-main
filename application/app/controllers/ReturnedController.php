@@ -1,7 +1,8 @@
 <?php
+
 declare(strict_types=1);
 
- 
+
 
 use Phalcon\Mvc\Model\Criteria;
 use Phalcon\Paginator\Adapter\Model;
@@ -12,220 +13,217 @@ class ReturnedController extends ControllerBase
 
 
 
-public function indexAction()
-{
+        public function indexAction()
+        {
+        }
 
- }
 
 
 
+        public function searchAction()
+        {
+                $numberPage = $this->request->getQuery('page', 'int', 1);
+                $parameters = Criteria::fromInput($this->di, 'Returned', $_GET)->getParams();
+                $parameters['order'] = "id";
 
-public function searchAction()
-{
-$numberPage = $this->request->getQuery('page', 'int', 1);
-$parameters = Criteria::fromInput($this->di, 'Returned', $_GET)->getParams();
-$parameters['order'] = "id";
+                $paginator = new Model(
+                        [
+                                'model' => 'Returned',
+                                'parameters' => $parameters,
+                                'limit' => 10,
+                                'page' => $numberPage,
+                        ]
+                );
 
-$paginator = new Model(
-[
-'model' => 'Returned',
-'parameters' => $parameters,
-'limit' => 10,
-'page' => $numberPage,
-]
-);
+                $paginate = $paginator->paginate();
 
-$paginate = $paginator->paginate();
+                if (0 === $paginate->getTotalItems()) {
+                        $this->flash->notice("The search did not find any returned");
 
-if (0 === $paginate->getTotalItems()) {
-$this->flash->notice("The search did not find any returned");
+                        $this->dispatcher->forward([
+                                "controller" => "returned",
+                                "action" => "index"
+                        ]);
 
-$this->dispatcher->forward([
-"controller" => "returned",
-"action" => "index"
-]);
+                        return;
+                }
 
-return;
-}
+                $this->view->page = $paginate;
+        }
 
-$this->view->page = $paginate;
-}
 
 
 
+        public function newAction()
+        {
+        }
 
-public function newAction()
-{
 
- }
 
 
 
 
+        public function editAction($id)
+        {
+                if (!$this->request->isPost()) {
+                        $returned = Returned::findFirstByid($id);
+                        if (!$returned) {
+                                $this->flash->error("returned was not found");
 
+                                $this->dispatcher->forward([
+                                        'controller' => "returned",
+                                        'action' => 'index'
+                                ]);
 
-public function editAction($id)
-{
-if (!$this->request->isPost()) {
-$returned = Returned::findFirstByid($id);
-if (!$returned) {
-$this->flash->error("returned was not found");
+                                return;
+                        }
 
-$this->dispatcher->forward([
-'controller' => "returned",
-'action' => 'index'
-]);
+                        $this->view->id = $returned->id;
 
-return;
-}
+                        $this->tag->setDefault("id", $returned->id);
+                        $this->tag->setDefault("id_account", $returned->id_account);
+                        $this->tag->setDefault("create_at", $returned->create_at);
+                        $this->tag->setDefault("update_at", $returned->update_at);
+                }
+        }
 
-$this->view->id = $returned->id;
 
-$this->tag->setDefault("id", $returned->id);
-            $this->tag->setDefault("id_account", $returned->id_account);
-            $this->tag->setDefault("create_at", $returned->create_at);
-            $this->tag->setDefault("update_at", $returned->update_at);
-            
-}
-}
 
 
+        public function createAction()
+        {
+                if (!$this->request->isPost()) {
+                        $this->dispatcher->forward([
+                                'controller' => "returned",
+                                'action' => 'index'
+                        ]);
 
+                        return;
+                }
 
-public function createAction()
-{
-if (!$this->request->isPost()) {
-$this->dispatcher->forward([
-'controller' => "returned",
-'action' => 'index'
-]);
+                $returned = new Returned();
+                $returned->idAccount = $this->request->getPost("id_account", "int");
+                $returned->createAt = $this->request->getPost("create_at");
+                $returned->updateAt = $this->request->getPost("update_at");
 
-return;
-}
 
-$returned = new Returned();
-$returned->idAccount = $this->request->getPost("id_account", "int");
-        $returned->createAt = $this->request->getPost("create_at");
-        $returned->updateAt = $this->request->getPost("update_at");
-        
+                if (!$returned->save()) {
+                        foreach ($returned->getMessages() as $message) {
+                                $this->flash->error($message);
+                        }
 
-if (!$returned->save()) {
-foreach ($returned->getMessages() as $message) {
-$this->flash->error($message);
-}
+                        $this->dispatcher->forward([
+                                'controller' => "returned",
+                                'action' => 'new'
+                        ]);
 
-$this->dispatcher->forward([
-'controller' => "returned",
-'action' => 'new'
-]);
+                        return;
+                }
 
-return;
-}
+                $this->flash->success("returned was created successfully");
 
-$this->flash->success("returned was created successfully");
+                $this->dispatcher->forward([
+                        'controller' => "returned",
+                        'action' => 'index'
+                ]);
+        }
 
-$this->dispatcher->forward([
-'controller' => "returned",
-'action' => 'index'
-]);
-}
 
 
 
 
+        public function saveAction()
+        {
 
-public function saveAction()
-{
+                if (!$this->request->isPost()) {
+                        $this->dispatcher->forward([
+                                'controller' => "returned",
+                                'action' => 'index'
+                        ]);
 
-if (!$this->request->isPost()) {
-$this->dispatcher->forward([
-'controller' => "returned",
-'action' => 'index'
-]);
+                        return;
+                }
 
-return;
-}
+                $id = $this->request->getPost("id");
+                $returned = Returned::findFirstByid($id);
 
-$id = $this->request->getPost("id");
-$returned = Returned::findFirstByid($id);
+                if (!$returned) {
+                        $this->flash->error("returned does not exist " . $id);
 
-if (!$returned) {
-$this->flash->error("returned does not exist " . $id);
+                        $this->dispatcher->forward([
+                                'controller' => "returned",
+                                'action' => 'index'
+                        ]);
 
-$this->dispatcher->forward([
-'controller' => "returned",
-'action' => 'index'
-]);
+                        return;
+                }
 
-return;
-}
+                $returned->idAccount = $this->request->getPost("id_account", "int");
+                $returned->createAt = $this->request->getPost("create_at");
+                $returned->updateAt = $this->request->getPost("update_at");
 
-$returned->idAccount = $this->request->getPost("id_account", "int");
-        $returned->createAt = $this->request->getPost("create_at");
-        $returned->updateAt = $this->request->getPost("update_at");
-        
 
-if (!$returned->save()) {
+                if (!$returned->save()) {
 
-foreach ($returned->getMessages() as $message) {
-$this->flash->error($message);
-}
+                        foreach ($returned->getMessages() as $message) {
+                                $this->flash->error($message);
+                        }
 
-$this->dispatcher->forward([
-'controller' => "returned",
-'action' => 'edit',
-'params' => [$returned->id]
-]);
+                        $this->dispatcher->forward([
+                                'controller' => "returned",
+                                'action' => 'edit',
+                                'params' => [$returned->id]
+                        ]);
 
-return;
-}
+                        return;
+                }
 
-$this->flash->success("returned was updated successfully");
+                $this->flash->success("returned was updated successfully");
 
-$this->dispatcher->forward([
-'controller' => "returned",
-'action' => 'index'
-]);
-}
+                $this->dispatcher->forward([
+                        'controller' => "returned",
+                        'action' => 'index'
+                ]);
+        }
 
 
 
 
 
 
-public function deleteAction($id)
-{
-$returned = Returned::findFirstByid($id);
-if (!$returned) {
-$this->flash->error("returned was not found");
+        public function deleteAction($id)
+        {
+                $returned = Returned::findFirstByid($id);
+                if (!$returned) {
+                        $this->flash->error("returned was not found");
 
-$this->dispatcher->forward([
-'controller' => "returned",
-'action' => 'index'
-]);
+                        $this->dispatcher->forward([
+                                'controller' => "returned",
+                                'action' => 'index'
+                        ]);
 
-return;
-}
+                        return;
+                }
 
-if (!$returned->delete()) {
+                if (!$returned->delete()) {
 
-foreach ($returned->getMessages() as $message) {
-$this->flash->error($message);
-}
+                        foreach ($returned->getMessages() as $message) {
+                                $this->flash->error($message);
+                        }
 
-$this->dispatcher->forward([
-'controller' => "returned",
-'action' => 'search'
-]);
+                        $this->dispatcher->forward([
+                                'controller' => "returned",
+                                'action' => 'search'
+                        ]);
 
-return;
-}
+                        return;
+                }
 
-$this->flash->success("returned was deleted successfully");
+                $this->flash->success("returned was deleted successfully");
 
-$this->dispatcher->forward([
-'controller' => "returned",
-'action' => "index"
-]);
-}
+                $this->dispatcher->forward([
+                        'controller' => "returned",
+                        'action' => "index"
+                ]);
+        }
 }

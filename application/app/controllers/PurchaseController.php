@@ -1,7 +1,8 @@
 <?php
+
 declare(strict_types=1);
 
- 
+
 
 use Phalcon\Mvc\Model\Criteria;
 use Phalcon\Paginator\Adapter\Model;
@@ -12,226 +13,223 @@ class PurchaseController extends ControllerBase
 
 
 
-public function indexAction()
-{
+        public function indexAction()
+        {
+        }
 
- }
 
 
 
+        public function searchAction()
+        {
+                $numberPage = $this->request->getQuery('page', 'int', 1);
+                $parameters = Criteria::fromInput($this->di, 'Purchase', $_GET)->getParams();
+                $parameters['order'] = "id";
 
-public function searchAction()
-{
-$numberPage = $this->request->getQuery('page', 'int', 1);
-$parameters = Criteria::fromInput($this->di, 'Purchase', $_GET)->getParams();
-$parameters['order'] = "id";
+                $paginator = new Model(
+                        [
+                                'model' => 'Purchase',
+                                'parameters' => $parameters,
+                                'limit' => 10,
+                                'page' => $numberPage,
+                        ]
+                );
 
-$paginator = new Model(
-[
-'model' => 'Purchase',
-'parameters' => $parameters,
-'limit' => 10,
-'page' => $numberPage,
-]
-);
+                $paginate = $paginator->paginate();
 
-$paginate = $paginator->paginate();
+                if (0 === $paginate->getTotalItems()) {
+                        $this->flash->notice("The search did not find any purchase");
 
-if (0 === $paginate->getTotalItems()) {
-$this->flash->notice("The search did not find any purchase");
+                        $this->dispatcher->forward([
+                                "controller" => "purchase",
+                                "action" => "index"
+                        ]);
 
-$this->dispatcher->forward([
-"controller" => "purchase",
-"action" => "index"
-]);
+                        return;
+                }
 
-return;
-}
+                $this->view->page = $paginate;
+        }
 
-$this->view->page = $paginate;
-}
 
 
 
+        public function newAction()
+        {
+        }
 
-public function newAction()
-{
 
- }
 
 
 
 
+        public function editAction($id)
+        {
+                if (!$this->request->isPost()) {
+                        $purchase = Purchase::findFirstByid($id);
+                        if (!$purchase) {
+                                $this->flash->error("purchase was not found");
 
+                                $this->dispatcher->forward([
+                                        'controller' => "purchase",
+                                        'action' => 'index'
+                                ]);
 
-public function editAction($id)
-{
-if (!$this->request->isPost()) {
-$purchase = Purchase::findFirstByid($id);
-if (!$purchase) {
-$this->flash->error("purchase was not found");
+                                return;
+                        }
 
-$this->dispatcher->forward([
-'controller' => "purchase",
-'action' => 'index'
-]);
+                        $this->view->id = $purchase->id;
 
-return;
-}
+                        $this->tag->setDefault("id", $purchase->id);
+                        $this->tag->setDefault("id_account", $purchase->id_account);
+                        $this->tag->setDefault("total_price", $purchase->total_price);
+                        $this->tag->setDefault("purchase_at", $purchase->purchase_at);
+                        $this->tag->setDefault("create_at", $purchase->create_at);
+                        $this->tag->setDefault("update_at", $purchase->update_at);
+                }
+        }
 
-$this->view->id = $purchase->id;
 
-$this->tag->setDefault("id", $purchase->id);
-            $this->tag->setDefault("id_account", $purchase->id_account);
-            $this->tag->setDefault("total_price", $purchase->total_price);
-            $this->tag->setDefault("purchase_at", $purchase->purchase_at);
-            $this->tag->setDefault("create_at", $purchase->create_at);
-            $this->tag->setDefault("update_at", $purchase->update_at);
-            
-}
-}
 
 
+        public function createAction()
+        {
+                if (!$this->request->isPost()) {
+                        $this->dispatcher->forward([
+                                'controller' => "purchase",
+                                'action' => 'index'
+                        ]);
 
+                        return;
+                }
 
-public function createAction()
-{
-if (!$this->request->isPost()) {
-$this->dispatcher->forward([
-'controller' => "purchase",
-'action' => 'index'
-]);
+                $purchase = new Purchase();
+                $purchase->idAccount = $this->request->getPost("id_account", "int");
+                $purchase->totalPrice = $this->request->getPost("total_price", "int");
+                $purchase->purchaseAt = $this->request->getPost("purchase_at");
+                $purchase->createAt = $this->request->getPost("create_at");
+                $purchase->updateAt = $this->request->getPost("update_at");
 
-return;
-}
 
-$purchase = new Purchase();
-$purchase->idAccount = $this->request->getPost("id_account", "int");
-        $purchase->totalPrice = $this->request->getPost("total_price", "int");
-        $purchase->purchaseAt = $this->request->getPost("purchase_at");
-        $purchase->createAt = $this->request->getPost("create_at");
-        $purchase->updateAt = $this->request->getPost("update_at");
-        
+                if (!$purchase->save()) {
+                        foreach ($purchase->getMessages() as $message) {
+                                $this->flash->error($message);
+                        }
 
-if (!$purchase->save()) {
-foreach ($purchase->getMessages() as $message) {
-$this->flash->error($message);
-}
+                        $this->dispatcher->forward([
+                                'controller' => "purchase",
+                                'action' => 'new'
+                        ]);
 
-$this->dispatcher->forward([
-'controller' => "purchase",
-'action' => 'new'
-]);
+                        return;
+                }
 
-return;
-}
+                $this->flash->success("purchase was created successfully");
 
-$this->flash->success("purchase was created successfully");
+                $this->dispatcher->forward([
+                        'controller' => "purchase",
+                        'action' => 'index'
+                ]);
+        }
 
-$this->dispatcher->forward([
-'controller' => "purchase",
-'action' => 'index'
-]);
-}
 
 
 
 
+        public function saveAction()
+        {
 
-public function saveAction()
-{
+                if (!$this->request->isPost()) {
+                        $this->dispatcher->forward([
+                                'controller' => "purchase",
+                                'action' => 'index'
+                        ]);
 
-if (!$this->request->isPost()) {
-$this->dispatcher->forward([
-'controller' => "purchase",
-'action' => 'index'
-]);
+                        return;
+                }
 
-return;
-}
+                $id = $this->request->getPost("id");
+                $purchase = Purchase::findFirstByid($id);
 
-$id = $this->request->getPost("id");
-$purchase = Purchase::findFirstByid($id);
+                if (!$purchase) {
+                        $this->flash->error("purchase does not exist " . $id);
 
-if (!$purchase) {
-$this->flash->error("purchase does not exist " . $id);
+                        $this->dispatcher->forward([
+                                'controller' => "purchase",
+                                'action' => 'index'
+                        ]);
 
-$this->dispatcher->forward([
-'controller' => "purchase",
-'action' => 'index'
-]);
+                        return;
+                }
 
-return;
-}
+                $purchase->idAccount = $this->request->getPost("id_account", "int");
+                $purchase->totalPrice = $this->request->getPost("total_price", "int");
+                $purchase->purchaseAt = $this->request->getPost("purchase_at");
+                $purchase->createAt = $this->request->getPost("create_at");
+                $purchase->updateAt = $this->request->getPost("update_at");
 
-$purchase->idAccount = $this->request->getPost("id_account", "int");
-        $purchase->totalPrice = $this->request->getPost("total_price", "int");
-        $purchase->purchaseAt = $this->request->getPost("purchase_at");
-        $purchase->createAt = $this->request->getPost("create_at");
-        $purchase->updateAt = $this->request->getPost("update_at");
-        
 
-if (!$purchase->save()) {
+                if (!$purchase->save()) {
 
-foreach ($purchase->getMessages() as $message) {
-$this->flash->error($message);
-}
+                        foreach ($purchase->getMessages() as $message) {
+                                $this->flash->error($message);
+                        }
 
-$this->dispatcher->forward([
-'controller' => "purchase",
-'action' => 'edit',
-'params' => [$purchase->id]
-]);
+                        $this->dispatcher->forward([
+                                'controller' => "purchase",
+                                'action' => 'edit',
+                                'params' => [$purchase->id]
+                        ]);
 
-return;
-}
+                        return;
+                }
 
-$this->flash->success("purchase was updated successfully");
+                $this->flash->success("purchase was updated successfully");
 
-$this->dispatcher->forward([
-'controller' => "purchase",
-'action' => 'index'
-]);
-}
+                $this->dispatcher->forward([
+                        'controller' => "purchase",
+                        'action' => 'index'
+                ]);
+        }
 
 
 
 
 
 
-public function deleteAction($id)
-{
-$purchase = Purchase::findFirstByid($id);
-if (!$purchase) {
-$this->flash->error("purchase was not found");
+        public function deleteAction($id)
+        {
+                $purchase = Purchase::findFirstByid($id);
+                if (!$purchase) {
+                        $this->flash->error("purchase was not found");
 
-$this->dispatcher->forward([
-'controller' => "purchase",
-'action' => 'index'
-]);
+                        $this->dispatcher->forward([
+                                'controller' => "purchase",
+                                'action' => 'index'
+                        ]);
 
-return;
-}
+                        return;
+                }
 
-if (!$purchase->delete()) {
+                if (!$purchase->delete()) {
 
-foreach ($purchase->getMessages() as $message) {
-$this->flash->error($message);
-}
+                        foreach ($purchase->getMessages() as $message) {
+                                $this->flash->error($message);
+                        }
 
-$this->dispatcher->forward([
-'controller' => "purchase",
-'action' => 'search'
-]);
+                        $this->dispatcher->forward([
+                                'controller' => "purchase",
+                                'action' => 'search'
+                        ]);
 
-return;
-}
+                        return;
+                }
 
-$this->flash->success("purchase was deleted successfully");
+                $this->flash->success("purchase was deleted successfully");
 
-$this->dispatcher->forward([
-'controller' => "purchase",
-'action' => "index"
-]);
-}
+                $this->dispatcher->forward([
+                        'controller' => "purchase",
+                        'action' => "index"
+                ]);
+        }
 }
