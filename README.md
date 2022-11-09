@@ -4,7 +4,8 @@
 
 ### `docker-compose up`
 
-## Création des tables
+
+## Création des tables
 
 Télécharger l'extension "cweijan.vscode-mysql-client2" sur vscode
 
