@@ -7,10 +7,10 @@
 
 ## Création des tables
 
-Télécharger l'extension "cweijan.vscode-mysql-client2" sur vscode
+Télécharger l'extension `cweijan.vscode-mysql-client2` sur vscode (osef des autres IDE)
 
-se connecter à la bdd
+Se connecter à la bdd
 
-copier coller le fichier create-table.sql dans le fichier de nouvelle database
+Copier coller le fichier create-table.sql dans le fichier de nouvelle database
 
-executer les différentes créations de tables
+Executer les différentes créations de tables
