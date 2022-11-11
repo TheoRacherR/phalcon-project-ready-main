@@ -3,7 +3,7 @@ create table cart(
     id int(10) auto_increment  primary key,
     id_account int(10),
     created_at datetime default CURRENT_TIMESTAMP,
-    updated_at datetime on update CURRENT_TIMESTAMP
+    updated_at datetime default CURRENT_TIMESTAMP
 );
 
 create table product(  
@@ -15,7 +15,7 @@ create table product(
     stock int(10),
     picture_url varchar(255) null,
     created_at datetime default CURRENT_TIMESTAMP,
-    updated_at datetime on update CURRENT_TIMESTAMP
+    updated_at datetime default CURRENT_TIMESTAMP
 );
 
 create table cart_x_product(  
@@ -43,7 +43,7 @@ create table account(
     role int(10),
     address varchar(255) null,
     created_at datetime default CURRENT_TIMESTAMP,
-    updated_at datetime on update CURRENT_TIMESTAMP
+    updated_at datetime default CURRENT_TIMESTAMP
 );
 
 create table review(  
@@ -53,7 +53,7 @@ create table review(
     comment varchar(255) null,
     nb_star int(10),
     created_at datetime default CURRENT_TIMESTAMP,
-    updated_at datetime on update CURRENT_TIMESTAMP
+    updated_at datetime default CURRENT_TIMESTAMP
 );
 
 create table purchase(  
@@ -62,14 +62,14 @@ create table purchase(
     total_price int(10),
     purchase_at datetime,
     created_at datetime default CURRENT_TIMESTAMP,
-    updated_at datetime on update CURRENT_TIMESTAMP
+    updated_at datetime default CURRENT_TIMESTAMP
 );
 
 create table returned(  
     id int(10) auto_increment  primary key,
     id_account int(10),
     created_at datetime default CURRENT_TIMESTAMP,
-    updated_at datetime on update CURRENT_TIMESTAMP
+    updated_at datetime default CURRENT_TIMESTAMP
 );
 
 create table category(  
@@ -78,7 +78,7 @@ create table category(
     parent_category int(10),
     name varchar(255),
     created_at datetime default CURRENT_TIMESTAMP,
-    updated_at datetime on update CURRENT_TIMESTAMP
+    updated_at datetime default CURRENT_TIMESTAMP
 );
 
 create table delivery(  
@@ -88,6 +88,6 @@ create table delivery(
     estimated_date datetime,
     delivery_at datetime null,
     created_at datetime default CURRENT_TIMESTAMP,
-    updated_at datetime on update CURRENT_TIMESTAMP
+    updated_at datetime default CURRENT_TIMESTAMP
 );
 
