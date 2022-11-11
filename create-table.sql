@@ -2,8 +2,8 @@
 create table cart(  
     id int(10) auto_increment  primary key,
     id_account int(10),
-    create_at datetime,
-    update_at datetime
+    created_at datetime default CURRENT_TIMESTAMP,
+    updated_at datetime on update CURRENT_TIMESTAMP
 );
 
 create table product(  
@@ -14,8 +14,8 @@ create table product(
     description varchar(255) null,
     stock int(10),
     picture_url varchar(255) null,
-    create_at datetime,
-    update_at datetime
+    created_at datetime default CURRENT_TIMESTAMP,
+    updated_at datetime on update CURRENT_TIMESTAMP
 );
 
 create table cart_x_product(  
@@ -42,8 +42,8 @@ create table account(
     phone varchar(255) null,
     role int(10),
     address varchar(255) null,
-    create_at datetime,
-    update_at datetime
+    created_at datetime default CURRENT_TIMESTAMP,
+    updated_at datetime on update CURRENT_TIMESTAMP
 );
 
 create table review(  
@@ -52,8 +52,8 @@ create table review(
     id_account int(10),
     comment varchar(255) null,
     nb_star int(10),
-    create_at datetime,
-    update_at datetime
+    created_at datetime default CURRENT_TIMESTAMP,
+    updated_at datetime on update CURRENT_TIMESTAMP
 );
 
 create table purchase(  
@@ -61,15 +61,15 @@ create table purchase(
     id_account int(10),
     total_price int(10),
     purchase_at datetime,
-    create_at datetime,
-    update_at datetime
+    created_at datetime default CURRENT_TIMESTAMP,
+    updated_at datetime on update CURRENT_TIMESTAMP
 );
 
 create table returned(  
     id int(10) auto_increment  primary key,
     id_account int(10),
-    create_at datetime,
-    update_at datetime
+    created_at datetime default CURRENT_TIMESTAMP,
+    updated_at datetime on update CURRENT_TIMESTAMP
 );
 
 create table category(  
@@ -77,8 +77,8 @@ create table category(
     child_category int(10),
     parent_category int(10),
     name varchar(255),
-    create_at datetime,
-    update_at datetime
+    created_at datetime default CURRENT_TIMESTAMP,
+    updated_at datetime on update CURRENT_TIMESTAMP
 );
 
 create table delivery(  
@@ -87,7 +87,7 @@ create table delivery(
     status varchar(255) null,
     estimated_date datetime,
     delivery_at datetime null,
-    create_at datetime,
-    update_at datetime
+    created_at datetime default CURRENT_TIMESTAMP,
+    updated_at datetime on update CURRENT_TIMESTAMP
 );
 
