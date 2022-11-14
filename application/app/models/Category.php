@@ -92,5 +92,4 @@ class Category extends Model
     {
         return parent::findFirst($parameters);
     }
-
 }

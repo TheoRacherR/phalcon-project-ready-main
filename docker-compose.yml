@@ -18,7 +18,9 @@ services:
 
   mysql:
     container_name: mysql
-    image: mysql:8
+    build:
+      context: ./bdd
+      dockerfile: Dockerfile
     environment:
       MYSQL_DATABASE: phalcon_app
       MYSQL_ROOT_PASSWORD: root
