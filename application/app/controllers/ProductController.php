@@ -112,7 +112,7 @@ class ProductController extends ControllerBase
                 $product->name = $this->request->getPost("name");
                 $product->description = $this->request->getPost("description");
                 $product->stock = $this->request->getPost("stock", "int");
-                $product->pictureUrl = $this->request->getPost("picture_url");
+                $product->picture_url = $this->request->getPost("picture_url");
                 $product->createAt = $this->request->getPost("create_at");
                 $product->updateAt = $this->request->getPost("update_at");
 
