@@ -44,7 +44,7 @@
                                     <?php
                                     foreach ($subCategories as $subCategory) {
                                     ?>
-                                        <a class="dropdown-item" href="#"><?php echo $subCategory->name ?></a>
+                                        <a class="dropdown-item" href="<?php echo $this->url->get('category/search/' . $subCategory->name) ?>"><?php echo $subCategory->name ?></a>
                                     <?php
                                     }
                                     ?>
