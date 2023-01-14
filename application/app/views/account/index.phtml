@@ -7,9 +7,6 @@
 <h1>Account/index</h1>
 
 <?php if($this->session->get('auth')) {
-    echo 'connected';
-    echo '<br>';
+    echo '<a href="/account/logout" class="btn btn-warning">Se déconnecter</a>';
 }
 ?>
-
-<a href="/account/logout" class="btn btn-warning">Se déconnecter</a>

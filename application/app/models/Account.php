@@ -281,10 +281,40 @@ class Account extends \Phalcon\Mvc\Model
             new EmailValidator(
                 [
                     'model'   => $this,
-                    'message' => 'Please enter a correct email address',
+                    'message' => 'Merci de fournir une adresse email valide',
                 ]
             )
         );
+
+        $validator->add(
+            'email',
+            new Validation\Validator\Uniqueness(
+                [
+                    'model' => $this,
+                    'message' => 'Cette adresse email est déjà utilisée'
+                ]
+            )
+        );
+
+        $validator->add(
+            'username',
+            new Validation\Validator\Uniqueness(
+                [
+                    'model' => $this,
+                    'message' => 'Ce nom d\'utilisateur est déjà utilisé'
+                ]
+            )
+        );
+
+        /*$validator->add(
+            'password',
+            new Validation\Validator\Regex(
+                [
+                    "pattern" => "/^(?=.*[!@#$%^&*-])(?=.*[0-9])(?=.*[A-Z]).{8,20}$/",
+                    "message" => "The creation date is invalid",
+                ]
+            )
+        );*/
 
         return $this->validate($validator);
     }

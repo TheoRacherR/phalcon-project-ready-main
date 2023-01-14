@@ -25,8 +25,16 @@ class AccountController extends \Phalcon\Mvc\Controller
         $account->email = $this->request->getPost('email');
         $account->password = $this->security->hash($this->request->getPost('password'));
 
-        $account->save();
-        $this->response->redirect('account/index');
+        if(false === $account->save()) {
+            $messages = $account->getMessages();
+            foreach($messages as $message) {
+                $this->flashSession->error($message->getMessage());
+            }
+            $this->response->redirect('account/register');
+        } else {
+            $this->flashSession->success('Votre compte a bien été créé');
+            $this->response->redirect('account/index');
+        }
     }
 
     public function loginAction() {
@@ -42,6 +50,9 @@ class AccountController extends \Phalcon\Mvc\Controller
         $username = $this->request->getPost('username');
         $password = $this->request->getPost('password');
 
+        /**
+         * @var Account $user
+         */
         $user = Account::findFirstByUsername($username);
 
         if($user) {
@@ -51,6 +62,8 @@ class AccountController extends \Phalcon\Mvc\Controller
                 ]);
             }
         }
+
+        $this->flashSession->success('Bonjour '. $user->getUsername());
 
         $this->response->redirect('account/index');
     }
