@@ -23,7 +23,7 @@ class AccountController extends \Phalcon\Mvc\Controller
 
         $account->username = $this->request->getPost('username');
         $account->email = $this->request->getPost('email');
-        $account->password = $this->security->hash($this->request->getPost('password'));
+        $account->password = $this->request->getPost('password');
 
         if(false === $account->save()) {
             $messages = $account->getMessages();

@@ -61,6 +61,15 @@ class Account extends \Phalcon\Mvc\Model
     protected $updated_at;
 
     /**
+     * Initialize method for model.
+     */
+    public function initialize()
+    {
+        $this->setSchema("phalcon_app");
+        $this->setSource("account");
+    }
+
+    /**
      * Method to set the value of field id
      *
      * @param integer $id
@@ -306,26 +315,21 @@ class Account extends \Phalcon\Mvc\Model
             )
         );
 
-        /*$validator->add(
+        $validator->add(
             'password',
             new Validation\Validator\Regex(
                 [
                     "pattern" => "/^(?=.*[!@#$%^&*-])(?=.*[0-9])(?=.*[A-Z]).{8,20}$/",
-                    "message" => "The creation date is invalid",
+                    "message" => "Le mot de passe doit contenir au moins 8 caractères, une minuscule, une majuscule, un chiffre et un caractère spécial",
                 ]
             )
-        );*/
+        );
 
         return $this->validate($validator);
     }
 
-    /**
-     * Initialize method for model.
-     */
-    public function initialize()
-    {
-        $this->setSchema("phalcon_app");
-        $this->setSource("account");
+    public function afterValidation() {
+        $this->password = password_hash($this->password, PASSWORD_BCRYPT);
     }
 
     /**
