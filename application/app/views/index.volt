@@ -13,7 +13,6 @@
     <body>
         <div class="container">
             <div class="previous">
-                {# <?php echo $this->tag->linkTo(["/", "Home"]) ?> #}
                 {{ link_to("/", "Homes") }}
                 </div>
             {{ content() }}

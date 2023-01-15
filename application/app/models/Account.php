@@ -2,70 +2,279 @@
 
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\Email as EmailValidator;
-use \Phalcon\Mvc\Model;
 
-class Account extends Model
+class Account extends \Phalcon\Mvc\Model
 {
 
     /**
      *
      * @var integer
      */
-    public $id;
+    protected $id;
+
+    /**
+     *
+     * @var string
+     */
+    protected $username;
+
+    /**
+     *
+     * @var string
+     */
+    protected $password;
+
+    /**
+     *
+     * @var string
+     */
+    protected $email;
+
+    /**
+     *
+     * @var string
+     */
+    protected $phone;
 
     /**
      *
      * @var integer
      */
-    public $id_cart;
+    protected $role;
 
     /**
      *
      * @var string
      */
-    public $username;
+    protected $address;
 
     /**
      *
      * @var string
      */
-    public $password;
+    protected $created_at;
 
     /**
      *
      * @var string
      */
-    public $email;
+    protected $updated_at;
 
     /**
-     *
-     * @var string
+     * Initialize method for model.
      */
-    public $phone;
+    public function initialize()
+    {
+        $this->setSchema("phalcon_app");
+        $this->setSource("account");
+    }
 
     /**
+     * Method to set the value of field id
      *
-     * @var integer
+     * @param integer $id
+     * @return $this
      */
-    public $role;
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
 
     /**
+     * Method to set the value of field username
      *
-     * @var string
+     * @param string $username
+     * @return $this
      */
-    public $address;
+    public function setUsername($username)
+    {
+        $this->username = $username;
+
+        return $this;
+    }
 
     /**
+     * Method to set the value of field password
      *
-     * @var string
+     * @param string $password
+     * @return $this
      */
-    public $create_at;
+    public function setPassword($password)
+    {
+        $this->password = $password;
+
+        return $this;
+    }
 
     /**
+     * Method to set the value of field email
      *
-     * @var string
+     * @param string $email
+     * @return $this
      */
-    public $update_at;
+    public function setEmail($email)
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * Method to set the value of field phone
+     *
+     * @param string $phone
+     * @return $this
+     */
+    public function setPhone($phone)
+    {
+        $this->phone = $phone;
+
+        return $this;
+    }
+
+    /**
+     * Method to set the value of field role
+     *
+     * @param integer $role
+     * @return $this
+     */
+    public function setRole($role)
+    {
+        $this->role = $role;
+
+        return $this;
+    }
+
+    /**
+     * Method to set the value of field address
+     *
+     * @param string $address
+     * @return $this
+     */
+    public function setAddress($address)
+    {
+        $this->address = $address;
+
+        return $this;
+    }
+
+    /**
+     * Method to set the value of field created_at
+     *
+     * @param string $created_at
+     * @return $this
+     */
+    public function setCreatedAt($created_at)
+    {
+        $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    /**
+     * Method to set the value of field updated_at
+     *
+     * @param string $updated_at
+     * @return $this
+     */
+    public function setUpdatedAt($updated_at)
+    {
+        $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
+    /**
+     * Returns the value of field id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Returns the value of field username
+     *
+     * @return string
+     */
+    public function getUsername()
+    {
+        return $this->username;
+    }
+
+    /**
+     * Returns the value of field password
+     *
+     * @return string
+     */
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    /**
+     * Returns the value of field email
+     *
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * Returns the value of field phone
+     *
+     * @return string
+     */
+    public function getPhone()
+    {
+        return $this->phone;
+    }
+
+    /**
+     * Returns the value of field role
+     *
+     * @return integer
+     */
+    public function getRole()
+    {
+        return $this->role;
+    }
+
+    /**
+     * Returns the value of field address
+     *
+     * @return string
+     */
+    public function getAddress()
+    {
+        return $this->address;
+    }
+
+    /**
+     * Returns the value of field created_at
+     *
+     * @return string
+     */
+    public function getCreatedAt()
+    {
+        return $this->created_at;
+    }
+
+    /**
+     * Returns the value of field updated_at
+     *
+     * @return string
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updated_at;
+    }
 
     /**
      * Validations and business logic
@@ -81,7 +290,37 @@ class Account extends Model
             new EmailValidator(
                 [
                     'model'   => $this,
-                    'message' => 'Please enter a correct email address',
+                    'message' => 'Merci de fournir une adresse email valide',
+                ]
+            )
+        );
+
+        $validator->add(
+            'email',
+            new Validation\Validator\Uniqueness(
+                [
+                    'model' => $this,
+                    'message' => 'Cette adresse email est déjà utilisée'
+                ]
+            )
+        );
+
+        $validator->add(
+            'username',
+            new Validation\Validator\Uniqueness(
+                [
+                    'model' => $this,
+                    'message' => 'Ce nom d\'utilisateur est déjà utilisé'
+                ]
+            )
+        );
+
+        $validator->add(
+            'password',
+            new Validation\Validator\Regex(
+                [
+                    "pattern" => "/^(?=.*[!@#$%^&*-])(?=.*[0-9])(?=.*[A-Z]).{8,20}$/",
+                    "message" => "Le mot de passe doit contenir au moins 8 caractères, une minuscule, une majuscule, un chiffre et un caractère spécial",
                 ]
             )
         );
@@ -89,74 +328,8 @@ class Account extends Model
         return $this->validate($validator);
     }
 
-    /**
-     * Initialize method for model.
-     */
-    public function initialize()
-    {
-        $this->setSchema("phalcon_app");
-        $this->setSource("account");
-
-        $this->belongsTo(
-            'id_cart',
-            Cart::class,
-            'id',
-            [
-                'reusable' => true,
-                'alias'    => 'cart'
-            ]
-        );
-
-        $this->hasMany(
-            'id',
-            Product::class,
-            'id_owner',
-            [
-                'reusable' => true,
-                'alias'    => 'product'
-            ]
-        );
-
-        $this->hasMany(
-            'id',
-            Review::class,
-            'id_account',
-            [
-                'reusable' => true,
-                'alias'    => 'review'
-            ]
-        );
-
-        $this->hasMany(
-            'id',
-            Purchase::class,
-            'id_account',
-            [
-                'reusable' => true,
-                'alias'    => 'purchase'
-            ]
-        );
-
-        $this->hasMany(
-            'id',
-            Delivery::class,
-            'id_account',
-            [
-                'reusable' => true,
-                'alias'    => 'delivery'
-            ]
-        );
-
-        $this->hasMany(
-            'id',
-            Returned::class,
-            'id_account',
-            [
-                'reusable' => true,
-                'alias'    => 'return'
-            ]
-        );
-
+    public function afterValidation() {
+        $this->password = password_hash($this->password, PASSWORD_BCRYPT);
     }
 
     /**
