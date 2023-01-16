@@ -20,10 +20,13 @@
 <body>
     <div class="container">
         <div class="previous">
-            {# <?php echo $this->tag->linkTo(["/", "Home"]) ?> #}
-            {{ link_to("/", "Homes") }}
+//             {# <?php echo $this->tag->linkTo(["/", "Home"]) ?> #}
+//             {{ link_to("/", "Homes") }}
+            <?php echo $this->tag->linkTo(["/", "Home"]) ?>
+            <?php echo $this->getContent(); ?>
             </div>
-        {{ content() }}
+//         {{ content() }}
+            
     </div>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="#">Menu</a>
