@@ -43,18 +43,7 @@ $di->setShared('view', function () {
     $view->setViewsDir($config->application->viewsDir);
 
     $view->registerEngines([
-        '.volt' => function ($view) {
-            $config = $this->getConfig();
-
-            $volt = new VoltEngine($view, $this);
-
-            $volt->setOptions([
-                'path' => $config->application->cacheDir,
-                'separator' => '_'
-            ]);
-
-            return $volt;
-        },
+        '.volt' => View\Engine\Volt::class,
         '.phtml' => PhpEngine::class
 
     ]);
@@ -84,16 +73,16 @@ $di->setShared('db', function () {
     return new $class($params);
 });
 
-
-
-
-
 $di->setShared('modelsMetadata', function () {
     return new MetaDataAdapter();
 });
 
-
-
+$di->set(
+    'sessionBag',
+    function () {
+        return new \Phalcon\Session\Bag("sessionBag");
+    }
+);
 
 $di->set('flash', function () {
     $escaper = new Escaper();
@@ -132,4 +121,12 @@ $di->setShared('session', function () {
     $session->start();
 
     return $session;
+});
+
+$di->set('dispatcher', function () use ($di) {
+    $eventsManager = new \Phalcon\Events\Manager();
+    $eventsManager->attach('dispatch:beforeExecuteRoute', new SecurityPlugin());
+    $dispatcher = new \Phalcon\Mvc\Dispatcher();
+    $dispatcher->setEventsManager($eventsManager);
+    return $dispatcher;
 });

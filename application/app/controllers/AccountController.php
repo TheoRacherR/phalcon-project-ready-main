@@ -38,13 +38,15 @@ class AccountController extends \Phalcon\Mvc\Controller
     }
 
     public function loginAction() {
-
+        if($this->session->get('auth')) {
+            $this->flashSession->warning('Vous êtes déjà connecté');
+            $this->response->redirect('account/index');
+        }
     }
 
     public function authorizeAction() {
         if(!$this->request->isPost()) {
-            $this->response->redirect('account/login');
-            return;
+            return $this->response->redirect('account/login');
         }
 
         $username = $this->request->getPost('username');
@@ -58,14 +60,16 @@ class AccountController extends \Phalcon\Mvc\Controller
         if($user) {
             if($this->security->checkHash($password, $user->getPassword())) {
                 $this->session->set('auth', [
-                    'username' => $user->getUsername()
+                    'username' => $user->getUsername(),
+                    'role' => $user->getRole()
                 ]);
+                $this->flashSession->success('Bonjour '. $user->getUsername());
+                return $this->response->redirect('account/index');
             }
         }
 
-        $this->flashSession->success('Bonjour '. $user->getUsername());
-
-        $this->response->redirect('account/index');
+        $this->flashSession->error('Les informations du compte sont incorrectes');
+        return $this->response->redirect('account/login');
     }
 
     public function logoutAction() {

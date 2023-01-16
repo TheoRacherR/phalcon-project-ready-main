@@ -18,6 +18,11 @@ create table product(
     updated_at datetime default CURRENT_TIMESTAMP
 );
 
+create table role(
+    id int(10) auto_increment primary key,
+    role varchar(255) not null,
+)
+
 create table cart_x_product(  
     id_cart int(10),
     id_product int(10)
