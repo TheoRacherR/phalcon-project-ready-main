@@ -37,6 +37,12 @@ class Product extends Model
 
     /**
      *
+     * @var double
+     */
+    public $price;
+
+    /**
+     *
      * @var integer
      */
     public $stock;

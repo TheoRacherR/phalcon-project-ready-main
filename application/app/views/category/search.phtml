@@ -18,6 +18,8 @@
                         <h5 class="card-title"><?php echo $product->name ?></h5>
                         <p class="card-text"><?php echo $product->description ?></p>
                         <a href="#" class="btn btn-primary">Détail</a>
+
+                        <a href="<?php echo $this->url->get('cart/add/' . $product->id) ?>" class="btn btn-outline-primary">Ajouter</a>
                     </div>
                 </div>
             </div>

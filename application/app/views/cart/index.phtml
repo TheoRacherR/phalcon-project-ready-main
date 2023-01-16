@@ -1,0 +1,49 @@
+<div class="row">
+<div class="col-md-12">
+        <h1>Votre panier</h1>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Total</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($this->session->get('cart') as $id=>$quantity): ?>
+                    <?php $product = Product::findFirst($id); ?>
+                    <tr>
+                        <td><?php echo $product->name ?></td>
+
+                        <td>
+                            <a href="<?php echo $this->url->get('cart/decrease/' . $product->id) ?>">-</a>
+                            <?php echo $quantity ?>
+                            <a href="<?php echo $this->url->get('cart/add/' . $product->id) ?>">+</a>
+                        </td>
+
+                        <td><?php echo $product->price ?></td>
+                        <td><?php echo $product->price * $quantity ?></td>
+                        <td>
+                            <a href="<?php echo $this->url->get('cart/delete/' . $product->id) ?>" class="btn btn-outline-danger">Supprimer</a>
+                        </td>
+                    </tr>
+                    <?php $total = $total + ($product->price * $quantity); ?>
+                    <?php endforeach; ?>
+                </tbody> 
+            </table>      
+            
+            <div class="text-right">
+
+                <b>Total du panier :</b> <?php echo $total ?> €
+                <br/>
+
+                <a href="<?php echo $this->url->get('cart/remove') ?>" class="btn btn-outline-danger">Vider le panier</a>
+
+                <a href="<?php echo $this->url->get('cart/checkout') ?>" class="btn btn-outline-success">Valider mon panier</a>
+            </div>
+        </div>
+    </div>  
+</div>
