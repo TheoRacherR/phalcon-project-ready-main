@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Phalcon\Escaper;
 use Phalcon\Flash\Direct as Flash;
+use Phalcon\Flash\Session as FlashSession;
 use Phalcon\Mvc\Model\Metadata\Memory as MetaDataAdapter;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Engine\Php as PhpEngine;
@@ -110,7 +111,18 @@ $di->set('flash', function () {
     return $flash;
 });
 
+$di->set('flashSession', function () {
+    $escaper = new Escaper();
+    $flash = new FlashSession($escaper);
+    $flash->setCssClasses([
+        'error' => 'alert alert-danger',
+        'success' => 'alert alert-success',
+        'notice' => 'alert alert-info',
+        'warning' => 'alert alert-warning'
+    ]);
 
+    return $flash;
+});
 
 
 $di->setShared('session', function () {
@@ -122,8 +134,12 @@ $di->setShared('session', function () {
     $session->start();
 
     return $session;
+<<<<<<< HEAD
 });
 
 $di->setShared('CartService', function () {
     return new CartService($this->getShared('session'));
 });
+=======
+});
+>>>>>>> 3dc3611c0455053fe0a08a36aa029286bb09bc63
