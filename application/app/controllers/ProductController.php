@@ -120,17 +120,6 @@ class ProductController extends ControllerBase
     }
 
 
-
-                $product = new Product();
-                $product->idOwner = $this->request->getPost("id_owner", "int");
-                $product->idSubCategory = $this->request->getPost("id_sub_category", "int");
-                $product->name = $this->request->getPost("name");
-                $product->description = $this->request->getPost("description");
-                $product->stock = $this->request->getPost("stock", "int");
-                $product->picture_url = $this->request->getPost("picture_url");
-                $product->createAt = $this->request->getPost("create_at");
-                $product->updateAt = $this->request->getPost("update_at");
-
     public function editAction($id)
     {
         if (!$this->request->isPost()) {

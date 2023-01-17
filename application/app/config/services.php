@@ -45,18 +45,8 @@ $di->setShared('view', function () {
     $view->setViewsDir($config->application->viewsDir);
 
     $view->registerEngines([
-        '.volt' => function ($view) {
-            $config = $this->getConfig();
 
-            $volt = new VoltEngine($view, $this);
-
-            $volt->setOptions([
-                'path' => $config->application->cacheDir,
-                'separator' => '_'
-            ]);
-
-            return $volt;
-        },
+        '.volt' => VoltEngine::class,
         '.phtml' => PhpEngine::class
 
     ]);
@@ -134,12 +124,8 @@ $di->setShared('session', function () {
     $session->start();
 
     return $session;
-<<<<<<< HEAD
 });
 
 $di->setShared('CartService', function () {
     return new CartService($this->getShared('session'));
 });
-=======
-});
->>>>>>> 3dc3611c0455053fe0a08a36aa029286bb09bc63
