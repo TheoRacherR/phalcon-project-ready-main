@@ -99,7 +99,6 @@ class ProductController extends ControllerBase
         $product->stock = $this->request->getPost("stock", "int");
         $product->pictureUrl = $this->request->getPost("picture_url");
 
-
         if (!$product->save()) {
             foreach ($product->getMessages() as $message) {
                 $this->flash->error($message);
@@ -117,9 +116,9 @@ class ProductController extends ControllerBase
         $this->response->redirect("product/page/" . "$product->id");
     }
 
-    
-    
-    ////////////// Edit ///////////////////////
+
+
+////////////// Edit ///////////////////////
 
     public function editAction($id)
     {

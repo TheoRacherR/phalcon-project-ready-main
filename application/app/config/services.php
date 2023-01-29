@@ -43,18 +43,7 @@ $di->setShared('view', function () {
     $view->setViewsDir($config->application->viewsDir);
 
     $view->registerEngines([
-        '.volt' => function ($view) {
-            $config = $this->getConfig();
-
-            $volt = new VoltEngine($view, $this);
-
-            $volt->setOptions([
-                'path' => $config->application->cacheDir,
-                'separator' => '_'
-            ]);
-
-            return $volt;
-        },
+        '.volt' => View\Engine\Volt::class,
         '.phtml' => PhpEngine::class
 
     ]);
