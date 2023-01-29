@@ -7,8 +7,6 @@ declare(strict_types=1);
 use Phalcon\Mvc\Model\Criteria;
 use Phalcon\Paginator\Adapter\Model;
 
-// use Phalcon\Forms\ProductNewForm;
-
 
 class ProductController extends ControllerBase
 {
@@ -119,17 +117,9 @@ class ProductController extends ControllerBase
         $this->response->redirect("product/page/" . "$product->id");
     }
 
-
-
-                $product = new Product();
-                $product->idOwner = $this->request->getPost("id_owner", "int");
-                $product->idSubCategory = $this->request->getPost("id_sub_category", "int");
-                $product->name = $this->request->getPost("name");
-                $product->description = $this->request->getPost("description");
-                $product->stock = $this->request->getPost("stock", "int");
-                $product->picture_url = $this->request->getPost("picture_url");
-                $product->createAt = $this->request->getPost("create_at");
-                $product->updateAt = $this->request->getPost("update_at");
+    
+    
+    ////////////// Edit ///////////////////////
 
     public function editAction($id)
     {
