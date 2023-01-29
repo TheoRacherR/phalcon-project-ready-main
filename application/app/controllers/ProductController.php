@@ -7,8 +7,6 @@ declare(strict_types=1);
 use Phalcon\Mvc\Model\Criteria;
 use Phalcon\Paginator\Adapter\Model;
 
-// use Phalcon\Forms\ProductNewForm;
-
 
 class ProductController extends ControllerBase
 {
@@ -100,7 +98,6 @@ class ProductController extends ControllerBase
         $product->description = $this->request->getPost("description");
         $product->stock = $this->request->getPost("stock", "int");
         $product->pictureUrl = $this->request->getPost("picture_url");
-
 
         if (!$product->save()) {
             foreach ($product->getMessages() as $message) {

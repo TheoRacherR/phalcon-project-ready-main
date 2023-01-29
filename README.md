@@ -2,7 +2,7 @@
 
 ## Lancer Docker
 
-### `docker-compose up`
+### `docker compose up`
 
 
 ## Création des tables

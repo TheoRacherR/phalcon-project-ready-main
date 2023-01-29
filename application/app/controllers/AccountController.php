@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 class AccountController extends \Phalcon\Mvc\Controller
@@ -6,15 +7,15 @@ class AccountController extends \Phalcon\Mvc\Controller
 
     public function indexAction()
     {
-
     }
 
-    public function registerAction() {
-
+    public function registerAction()
+    {
     }
 
-    public function createAction() {
-        if(!$this->request->isPost()) {
+    public function createAction()
+    {
+        if (!$this->request->isPost()) {
             $this->response->redirect('account/index');
             return;
         }
@@ -25,9 +26,9 @@ class AccountController extends \Phalcon\Mvc\Controller
         $account->email = $this->request->getPost('email');
         $account->password = $this->request->getPost('password');
 
-        if(false === $account->save()) {
+        if (false === $account->save()) {
             $messages = $account->getMessages();
-            foreach($messages as $message) {
+            foreach ($messages as $message) {
                 $this->flashSession->error($message->getMessage());
             }
             $this->response->redirect('account/register');
@@ -37,12 +38,13 @@ class AccountController extends \Phalcon\Mvc\Controller
         }
     }
 
-    public function loginAction() {
-
+    public function loginAction()
+    {
     }
 
-    public function authorizeAction() {
-        if(!$this->request->isPost()) {
+    public function authorizeAction()
+    {
+        if (!$this->request->isPost()) {
             $this->response->redirect('account/login');
             return;
         }
@@ -55,25 +57,24 @@ class AccountController extends \Phalcon\Mvc\Controller
          */
         $user = Account::findFirstByUsername($username);
 
-        if($user) {
-            if($this->security->checkHash($password, $user->getPassword())) {
+        if ($user) {
+            if ($this->security->checkHash($password, $user->getPassword())) {
                 $this->session->set('auth', [
                     'username' => $user->getUsername()
                 ]);
             }
         }
 
-        $this->flashSession->success('Bonjour '. $user->getUsername());
+        $this->flashSession->success('Bonjour ' . $user->getUsername());
 
         $this->response->redirect('account/index');
     }
 
-    public function logoutAction() {
-        if($this->session->get('auth')) {
+    public function logoutAction()
+    {
+        if ($this->session->get('auth')) {
             $this->session->destroy();
         }
         $this->response->redirect('account/index');
     }
-
 }
-
