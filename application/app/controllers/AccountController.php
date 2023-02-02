@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-class AccountController extends \Phalcon\Mvc\Controller
+class AccountController extends ControllerBase
 {
 
     public function indexAction()
@@ -40,6 +40,8 @@ class AccountController extends \Phalcon\Mvc\Controller
 
     public function loginAction()
     {
+        $js = 'alert("test")';
+        $this->assets->addInlineJs($js);
     }
 
     public function authorizeAction()
