@@ -18,6 +18,12 @@ class ProductXPurchase extends Model
     public $id_purchase;
 
     /**
+     *
+     * @var integer
+     */ 
+    public $quantity;
+
+    /**
      * Initialize method for model.
      */
     public function initialize()
