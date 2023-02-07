@@ -42,8 +42,11 @@
 					{% endfor %}
 				</ul>
 				<span class="nav-item active">
-					<a class="nav-link" href="/account/login">Connectez vous
-					</a>
+					{% if session.get('auth') %}
+						<a href="/account/logout" class="btn btn-warning">Se déconnecter</a>
+					{% else %}
+						<a class="nav-link" href="/account/login">Connectez vous<a>
+					{% endif %}
 				</span>
 			</div>
 
