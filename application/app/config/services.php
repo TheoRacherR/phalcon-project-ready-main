@@ -83,6 +83,23 @@ $di->setShared('modelsMetadata', function () {
 
 
 
+$di->set(
+    'sessionBag',
+    function () {
+        return new \Phalcon\Session\Bag("sessionBag");
+    }
+);
+
+
+$di->set('dispatcher', function () use ($di) {
+    $eventsManager = new \Phalcon\Events\Manager();
+    $eventsManager->attach('dispatch:beforeExecuteRoute', new SecurityPlugin());
+    $dispatcher = new \Phalcon\Mvc\Dispatcher();
+    $dispatcher->setEventsManager($eventsManager);
+    return $dispatcher;
+});
+
+
 
 $di->set('flash', function () {
     $escaper = new Escaper();
