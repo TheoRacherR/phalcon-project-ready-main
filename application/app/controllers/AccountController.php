@@ -63,7 +63,7 @@ class AccountController extends ControllerBase
         if ($user) {
             if ($this->security->checkHash($password, $user->getPassword())) {
                 $this->session->set('auth', [
-                    'username' => $user->getUsername()
+                    'username' => $user->getUsername(),
                     'role' => $user->getRole()
                 ]);
                 $this->flashSession->success('Bonjour '. $user->getUsername());
