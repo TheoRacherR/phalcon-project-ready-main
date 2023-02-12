@@ -1,5 +1,9 @@
 <div class="row">
-
+    <form action="upload/upload" method="post" enctype="multipart/form-data">
+        <input type="file" name="image">
+        <!-- <input type="text"> -->
+        <input type="submit" value="Upload Image">
+    </form>
     <?php
 
     use Product;
@@ -12,7 +16,8 @@
     ?>
             <div class="col-4 mt-2">
                 <div class="card" style="width: 18rem;">
-                    <img class="card-img-top img-fluid" src="<?php echo $product->picture_url ?>" alt="Card image cap">
+                    <!-- <img class="card-img-top img-fluid" src="<?php echo $product->picture_url ?>" alt="Card image cap"> -->
+                    <img class="card-img-top img-fluid" src="<?php echo $this->url->get($product->picture_url) ?>" alt="Card image cap">
                     <div class="card-body">
                         <h5 class="card-title"><?php echo $product->name ?></h5>
                         <p class="card-text"><?php echo $product->description ?></p>

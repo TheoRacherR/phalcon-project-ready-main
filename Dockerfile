@@ -4,6 +4,11 @@ ARG PSR_VERSION=0.7.0
 ARG PHALCON_VERSION=4.0.5
 ARG PHALCON_EXT_PATH=php7/64bits
 
+RUN wget -O "/usr/local/bin/go-replace" "https://github.com/webdevops/goreplace/releases/download/1.1.2/gr-arm64-linux"
+RUN chmod +x "/usr/local/bin/go-replace"
+RUN "/usr/local/bin/go-replace" --version
+
+
 RUN set -xe && \
     # Download PSR, see https://github.com/jbboehr/php-psr
     curl -LO https://github.com/jbboehr/php-psr/archive/v${PSR_VERSION}.tar.gz && \
@@ -12,15 +17,15 @@ RUN set -xe && \
     curl -LO https://github.com/phalcon/cphalcon/archive/v${PHALCON_VERSION}.tar.gz && \
     tar xzf ${PWD}/v${PHALCON_VERSION}.tar.gz && \
     docker-php-ext-install -j $(getconf _NPROCESSORS_ONLN) \
-        ${PWD}/php-psr-${PSR_VERSION} \
-        ${PWD}/cphalcon-${PHALCON_VERSION}/build/${PHALCON_EXT_PATH} \
+    ${PWD}/php-psr-${PSR_VERSION} \
+    ${PWD}/cphalcon-${PHALCON_VERSION}/build/${PHALCON_EXT_PATH} \
     && \
     # Remove all temp files
     rm -r \
-        ${PWD}/v${PSR_VERSION}.tar.gz \
-        ${PWD}/php-psr-${PSR_VERSION} \
-        ${PWD}/v${PHALCON_VERSION}.tar.gz \
-        ${PWD}/cphalcon-${PHALCON_VERSION} \
+    ${PWD}/v${PSR_VERSION}.tar.gz \
+    ${PWD}/php-psr-${PSR_VERSION} \
+    ${PWD}/v${PHALCON_VERSION}.tar.gz \
+    ${PWD}/cphalcon-${PHALCON_VERSION} \
     && \
     php -m
 
