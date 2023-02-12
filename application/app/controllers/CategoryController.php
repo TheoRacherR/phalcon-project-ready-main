@@ -81,7 +81,6 @@ class CategoryController extends ControllerBase
                         $this->view->id = $category->id;
 
                         $this->tag->setDefault("id", $category->id);
-                        $this->tag->setDefault("child_category", $category->child_category);
                         $this->tag->setDefault("parent_category", $category->parent_category);
                         $this->tag->setDefault("name", $category->name);
                         $this->tag->setDefault("create_at", $category->create_at);
@@ -104,7 +103,6 @@ class CategoryController extends ControllerBase
                 }
 
                 $category = new Category();
-                $category->childCategory = $this->request->getPost("child_category", "int");
                 $category->parentCategory = $this->request->getPost("parent_category", "int");
                 $category->name = $this->request->getPost("name");
                 $category->createAt = $this->request->getPost("create_at");
@@ -162,7 +160,6 @@ class CategoryController extends ControllerBase
                         return;
                 }
 
-                $category->childCategory = $this->request->getPost("child_category", "int");
                 $category->parentCategory = $this->request->getPost("parent_category", "int");
                 $category->name = $this->request->getPost("name");
                 $category->createAt = $this->request->getPost("create_at");

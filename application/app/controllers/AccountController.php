@@ -25,8 +25,13 @@ class AccountController extends ControllerBase
         $account->username = $this->request->getPost('username');
         $account->email = $this->request->getPost('email');
         $account->password = $this->request->getPost('password');
+        $account->role = 2;
 
-        if (false === $account->save()) {
+        $cart = new Cart();
+
+        $account->id_cart = $cart->id;
+
+        if (false === $account->save() or false === $cart->save()) {
             $messages = $account->getMessages();
             foreach ($messages as $message) {
                 $this->flashSession->error($message->getMessage());
@@ -42,7 +47,7 @@ class AccountController extends ControllerBase
     {
         if($this->session->get('auth')) {
             $this->flashSession->warning('Vous êtes déjà connecté');
-            $this->response->redirect('account/index');
+            $this->response->redirect('/');
         }
     }
 
@@ -67,7 +72,7 @@ class AccountController extends ControllerBase
                     'role' => $user->getRole()
                 ]);
                 $this->flashSession->success('Bonjour '. $user->getUsername());
-                return $this->response->redirect('account/index');
+                return $this->response->redirect('/');
             }
         }
 

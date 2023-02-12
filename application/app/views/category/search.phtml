@@ -24,7 +24,6 @@
         <thead>
             <tr>
                 <th>Id</th>
-            <th>Child Of Category</th>
             <th>Parent Of Category</th>
             <th>Name</th>
             <th>Create</th>
@@ -38,7 +37,6 @@
         <?php foreach ($page->getItems() as $category): ?>
             <tr>
                 <td><?php echo $category['id']; ?></td>
-            <td><?php echo $category['child_category']; ?></td>
             <td><?php echo $category['parent_category']; ?></td>
             <td><?php echo $category['name']; ?></td>
             <td><?php echo $category['create_at']; ?></td>

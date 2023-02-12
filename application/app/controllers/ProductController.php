@@ -15,6 +15,9 @@ class ProductController extends ControllerBase
 
     public function indexAction()
     {
+        $products = Product::find();
+        $this->view->setVar("products", $products);
+
     }
 
 
@@ -40,10 +43,7 @@ class ProductController extends ControllerBase
             if (0 === $paginate->getTotalItems()) {
                     $this->flash->notice("The search did not find any product");
 
-                    $this->dispatcher->forward([
-                            "controller" => "product",
-                            "action" => "index"
-                    ]);
+                    $this->response->redirect("product/");
 
                     return;
             }
@@ -57,18 +57,13 @@ class ProductController extends ControllerBase
 
     public function newAction()
     {
-    // $this->view->setVar('form', new ProductNewForm(null, ['edit' => false]));
-    // $this->view->form = new ProductNewForm();
 
         $categories = Category::find();
         
         if(!$categories){
             $this->flash->error("there is no categories");
 
-            $this->dispatcher->forward([
-                'controller' => "product",
-                'action' => 'index'
-            ]);
+            $this->response->redirect("product/");
 
             return;
         }
@@ -82,13 +77,29 @@ class ProductController extends ControllerBase
 
     public function createAction()
     {
-        if (!$this->request->isPost()) {
-            $this->dispatcher->forward([
-                'controller' => "product",
-                'action' => 'index'
-            ]);
+        if (!$this->request->isPost()) {     
+            $this->flash->error("product was not created successfully");
+            $this->response->redirect("product/");
 
             return;
+        }
+
+        if (!$this->request->hasFiles()) {     
+            $this->flash->error("no file");
+            $this->response->redirect("product/");
+
+            return;
+        }
+
+
+        $files = $this->request->getUploadedFiles();
+
+
+        foreach ($files as $file) {
+            if ($file->getError() == 0) {
+                $path = '/var/www/html/application/public/images/' . $file->getName();
+                $file->moveTo($path);
+            }
         }
 
         $product = new Product();
@@ -97,7 +108,11 @@ class ProductController extends ControllerBase
         $product->name = $this->request->getPost("name");
         $product->description = $this->request->getPost("description");
         $product->stock = $this->request->getPost("stock", "int");
-        $product->pictureUrl = $this->request->getPost("picture_url");
+
+        // 'images/' . 
+        $pathForBdd = $file->getName();
+        $product->picture_url = $pathForBdd;
+        // $product->pictureUrl = $this->request->getPost("picture_url");
 
         if (!$product->save()) {
             foreach ($product->getMessages() as $message) {
@@ -128,25 +143,19 @@ class ProductController extends ControllerBase
             if (!$product) {
                 $this->flash->error("product was not found");
 
-                $this->dispatcher->forward([
-                    'controller' => "product",
-                    'action' => 'index'
-                ]);
+                $this->response->redirect("product/");
 
                 return;
             }
 
             $this->view->id = $product->id;
 
-            $categories = Category::find();
+            $categories = Category::find(['parent_category' => NULL]);
         
             if(!$categories){
                 $this->flash->error("there is no categories");
 
-                $this->dispatcher->forward([
-                    'controller' => "product",
-                    'action' => 'index'
-                ]);
+                $this->response->redirect("product/");
 
                 return;
             }
@@ -157,7 +166,7 @@ class ProductController extends ControllerBase
             $this->tag->setDefault("name", $product->name);
             $this->tag->setDefault("description", $product->description);
             $this->tag->setDefault("stock", $product->stock);
-            $this->tag->setDefault("picture_url", $product->picture_url);
+            // $this->tag->setDefault("picture_url", $product->picture_url);
         }
     }
 
@@ -167,24 +176,20 @@ class ProductController extends ControllerBase
     {
 
             if (!$this->request->isPost()) {
-                    $this->dispatcher->forward([
-                            'controller' => "product",
-                            'action' => 'index'
-                    ]);
+                    $this->flash->error("not post");
+                    $this->response->redirect("product/");
 
                     return;
             }
 
             $id = $this->request->getPost("id");
+            $this->flash->success("id" . $id);
             $product = Product::findFirstByid($id);
 
             if (!$product) {
-                    $this->flash->error("product does not exist " . $id);
+                    $this->flash->error("product does not existss " . $id);
 
-                    $this->dispatcher->forward([
-                            'controller' => "product",
-                            'action' => 'index'
-                    ]);
+                    $this->response->redirect("product/");
 
                     return;
             }
@@ -193,7 +198,7 @@ class ProductController extends ControllerBase
             $product->name = $this->request->getPost("name");
             $product->description = $this->request->getPost("description");
             $product->stock = $this->request->getPost("stock", "int");
-            $product->pictureUrl = $this->request->getPost("picture_url");
+            // $product->pictureUrl = $this->request->getPost("picture_url");
 
 
             if (!$product->save()) {
@@ -218,15 +223,13 @@ class ProductController extends ControllerBase
 
 ///////////////// Delete /////////////////////
 
-    public function deleteAction($id){
+    public function deleteAction($id)
+    {
             $product = Product::findFirstByid($id);
             if (!$product) {
                     $this->flash->error("product was not found");
 
-                    $this->dispatcher->forward([
-                            'controller' => "product",
-                            'action' => 'index'
-                    ]);
+                    $this->response->redirect("product/");
 
                     return;
             }
@@ -247,7 +250,7 @@ class ProductController extends ControllerBase
 
             $this->flash->success("product was deleted successfully");
 
-            $this->response->redirect("product/index");
+            $this->response->redirect("product/");
     }
 
 
@@ -262,10 +265,7 @@ class ProductController extends ControllerBase
             if (!$product) {
                     $this->flash->error("product was not found");
                     
-                    $this->dispatcher->forward([
-                            'controller' => "product",
-                            'action' => 'index'
-                    ]);
+                    $this->response->redirect("product/");
 
                     return;
             }
@@ -280,22 +280,13 @@ class ProductController extends ControllerBase
             $sub_category = Category::findFirstByid($product->id_sub_category);
 
             if (!$sub_category){
-                    $category = "Unknonw";
-                    $sub_cat = "Unknonw";
-            }
-            else if($sub_category->parent_category != NULL && $sub_category->child_category == NULL){
-                    $this->flash->error("category was not found");
-                    
-                    $this->dispatcher->forward([
-                            'controller' => "product",
-                            'action' => 'index'
-                    ]);
-
-                    return;
+                $category = "Unknonw";
+                $sub_cat = "Unknonw";
             }
             else {
-                    $category = $sub_category->parent_category->name;
-                    $sub_cat = $sub_category->name;
+
+                $category = Category::findFirstById($sub_category->parent_category)->name;
+                $sub_cat = $sub_category->name;
                     
             }
 

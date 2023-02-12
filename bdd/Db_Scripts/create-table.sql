@@ -1,7 +1,6 @@
 -- Active: 1667853929586@@127.0.0.1@3306@phalcon_app
 create table cart(  
     id int(10) auto_increment  primary key,
-    id_account int(10),
     created_at datetime default CURRENT_TIMESTAMP,
     updated_at datetime default CURRENT_TIMESTAMP
 );
@@ -13,6 +12,7 @@ create table product(
     name varchar(255),
     description varchar(255) null,
     stock int(10),
+    price int(10),
     picture_url varchar(255) null,
     created_at datetime default CURRENT_TIMESTAMP,
     updated_at datetime default CURRENT_TIMESTAMP
@@ -20,7 +20,7 @@ create table product(
 
 create table role(
     id int(10) auto_increment primary key,
-    role varchar(255) not null,
+    role varchar(255) not null
 )
 
 create table cart_x_product(  
@@ -79,7 +79,6 @@ create table returned(
 
 create table category(  
     id int(10) auto_increment  primary key,
-    child_category int(10),
     parent_category int(10),
     name varchar(255),
     created_at datetime default CURRENT_TIMESTAMP,
@@ -95,4 +94,3 @@ create table delivery(
     created_at datetime default CURRENT_TIMESTAMP,
     updated_at datetime default CURRENT_TIMESTAMP
 );
-

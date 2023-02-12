@@ -1,0 +1,26 @@
+Avant de se lancer dans le projet :
+- Présentation de du framework Phalcon
+- Présentation du cours dans sa globalité
+- Prérequis et  initialisation du projet
+
+MVC et entités : 
+- Description et constition MVC
+- Listing des différentes entités
+- CRUD appliqué à une entité : la page produit, création, édition et suppression
+- Création d’un page d’accueil
+- Le filtrage des catégories
+
+Sécurité du site
+- Connexion et Inscription au site
+- Validation des requêtes du site
+- Gestion des rôles
+- Sécurisation des formulaires
+
+Fonctionnement d’un site e-commerce : 
+- Cycle d’achat : De la gestion du panier à la finalisation de la commande
+- Esthétique du site : Mise en place du CSS / JS sur un projet Phalcon
+- Extension du framework : Implémentation d’une librairie externe
+- Gestion du stockage de fichier : Mise en place d’upload d’images
+
+Conclusion :
+- Pour aller plus loin...

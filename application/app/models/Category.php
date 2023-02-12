@@ -15,12 +15,6 @@ class Category extends Model
      *
      * @var integer
      */
-    public $child_category;
-
-    /**
-     *
-     * @var integer
-     */
     public $parent_category;
 
     /**
@@ -57,16 +51,6 @@ class Category extends Model
             [
                 'reusable' => true,
                 'alias'    => 'parentcategory'
-            ]
-        );
-
-        $this->hasMany(
-            'id',
-            Product::class,
-            'child_category',
-            [
-                'reusable' => true,
-                'alias'    => 'childcategory'
             ]
         );
     }

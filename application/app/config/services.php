@@ -12,6 +12,7 @@ use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
 use Phalcon\Session\Adapter\Stream as SessionAdapter;
 use Phalcon\Session\Manager as SessionManager;
 use Phalcon\Url as UrlResolver;
+use CartService;
 
 
 
@@ -138,4 +139,8 @@ $di->setShared('session', function () {
     $session->start();
 
     return $session;
+});
+
+$di->setShared('CartService', function () {
+    return new CartService($this->getShared('session'));
 });

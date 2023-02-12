@@ -1,47 +1,48 @@
-<div class="page-header">
+<div class="page-header" style="display:flex">
     <div>
-        {{ link_to( "product", "Go Back") }}
+        {{ link_to( "product", "Go Back", "class": 'btn btn-primary ml-2 mb-5') }}
     </div>
     <div>
-        {{ link_to("product/new", "New Product") }}
+        {{ link_to("product/new", "New Product", "class": 'btn btn-success ml-2 mb-5') }}
     </div>
     <div>
-        {{ link_to("product/edit/" ~ prod.id, "Edit this Product") }}
+        {{ link_to("product/edit/" ~ prod.id, "Edit this Product", "class": 'btn btn-warning ml-2 mb-5') }}
     </div>
     <div>
-        {{ link_to("product/delete/" ~ prod.id, "Delete this Product") }}
+        {{ link_to("product/delete/" ~ prod.id, "Delete this Product", "class": 'btn btn-danger ml-2 mb-5') }}
     </div>
-    <h1>Product page</h1>
 </div>
+    <h1>{{  prod.name }}</h1>
 
 {{ content() }}
 
 {% block content %}
 
 
-    <p>Product id : {{ prod.id }}</p>
-    <p>Product owner : {{ owner }}</p>
+    {# <p>Product id : {{ prod.id }}</p> #}
+    <p>by {{ owner }}</p>
+    <div>{{ link_to("cart/add/" ~ product.id, "Ajouter", "class": "btn btn-success mb-3") }}</div>
     <p>Product category : {{  category }} </p>
-    <p>Product sub_category : {{  sub_category }} </p>
-    <p>Product name : {{  prod.name }} </p>
-    <p>Product description : {{  prod.description }} </p>
-    <p>Product stock : {{  prod.stock }} </p>
-    <p>Product photo : </p><img src={{prod.picture_url}} alt="image of the product">
+    <p>Product sub_category : {{  sub_category }} </p> 
+    {#<p>Product name : {{  prod.name }} </p>#}
+
+    <h3>Price : {{  prod.price }}€</h3>
+
+    <p>Description : {{  prod.description }} </p>
+
+    {% if prod.stock === 0 %}
+
+        <p><span style="color:red">This product is unavalable</span></p>
+    
+    {% else %}
+    
+        <p>{{ prod.stock }} products left. </p>
+        
+    {% endif %}
+
+    <p>Product photo : </p><img src="var/www/html/application/public/images/{{prod.picture_url}}" alt="image of the product">
 
 
-{# Etape VII - B #}
-    <h3>Reviews :</h3>
-    {%- if reviews|length == 0 -%}
-        <p>Soyer le premier à donner votre avis...</p>
-    {%- else -%}
-        {%- for review in reviews -%}
-            <p>De: {{ review.id_account.username }} </p>
-            <p>Commentaire: {{ review.comment }} </p>
-            <p>{{ review.nb_star }}/5 </p>
-            <p>Le: {{ review.created_at }} </p>
-        {%- endfor -%}
-    {%- endif -%}
-{# Etape VII - B #}
 
 
 {% endblock %}

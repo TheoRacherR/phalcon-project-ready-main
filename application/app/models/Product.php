@@ -43,6 +43,12 @@ class Product extends Model
 
     /**
      *
+     * @var integer
+     */
+    public $price;
+
+    /**
+     *
      * @var string
      */
     public $picture_url;
