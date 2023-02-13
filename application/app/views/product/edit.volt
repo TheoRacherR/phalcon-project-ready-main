@@ -20,6 +20,11 @@
 	</div>
 
 	<div>
+		<label for='price'>Price</label>
+		{{ text_field('price', 'size': 32, "class": "form-control") }}
+	</div>
+
+	<div>
 		<label for='id_sub_category'>Categories</label>
 		{{ 
             select([

@@ -34,14 +34,14 @@
 				</div>
 
 				<span class="nav-item active">
-					{{ link_to("cart", "Panier 🛒") }}
+					{{ link_to("cart", "Cart 🛒") }}
 				</span>
 
 				<span class="nav-item active">
 					{% if session.get('auth') %}
-						<a href="/account/logout" class="btn btn-warning">Se déconnecter</a>
+						<a href="/account/logout" class="btn btn-warning">Logout</a>
 					{% else %}
-						<a class="nav-link" href="/account/login">Connectez vous<a>
+						<a class="nav-link" href="/account/login">Sign in<a>
 					{% endif %}
 				</span>
 			</div>

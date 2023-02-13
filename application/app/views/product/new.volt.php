@@ -16,6 +16,11 @@
 	</div>
 
 	<div>
+		<label for='price'>Price</label>
+		<?= $this->tag->textField(['price', 'size' => 32, 'class' => 'form-control']) ?>
+	</div>
+
+	<div>
 		<label for='picture_url'>Picture url</label>
 		<?= $this->tag->fileField(['picture_url', 'class' => 'form-control', 'id' => 'formFile']) ?>
 	</div>

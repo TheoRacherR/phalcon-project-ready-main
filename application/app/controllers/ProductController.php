@@ -105,11 +105,12 @@ class ProductController extends ControllerBase
         }
 
         $product = new Product();
-        $product->id_owner = $this->session->get('auth');
+        $product->id_owner = $this->session->get('auth')["id"];
         $product->id_sub_category = $this->request->getPost("id_sub_category");
         $product->name = $this->request->getPost("name");
         $product->description = $this->request->getPost("description");
         $product->stock = $this->request->getPost("stock", "int");
+        $product->price = $this->request->getPost("price", "int");
 
         $pathForBdd = $file->getName();
         $product->picture_url = $pathForBdd;
@@ -198,6 +199,7 @@ class ProductController extends ControllerBase
             $product->name = $this->request->getPost("name");
             $product->description = $this->request->getPost("description");
             $product->stock = $this->request->getPost("stock", "int");
+            $product->price = $this->request->getPost("price", "int");
             // $product->pictureUrl = $this->request->getPost("picture_url");
 
 

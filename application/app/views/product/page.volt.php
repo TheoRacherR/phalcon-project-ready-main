@@ -21,7 +21,7 @@
 
     
     <p>by <?= $owner ?></p>
-    <div><?= $this->tag->linkTo(['cart/add/' . $prod->id, 'Ajouter', 'class' => 'btn btn-success mb-3']) ?></div>
+    <div><?= $this->tag->linkTo(['cart/add/' . $prod->id, 'Add', 'class' => 'btn btn-success mb-3']) ?></div>
     <p>Product category : <?= $category ?> </p>
     <p>Product sub_category : <?= $sub_category ?> </p> 
     
@@ -40,7 +40,7 @@
         
     <?php } ?>
 
-    <p>Product photo : </p><img src="var/www/html/application/public/images/<?= $prod->picture_url ?>" alt="image of the product">
+    <p>Product photo : </p><img src="/images/<?= $prod->picture_url ?>" alt="image of the product">
 
 
 

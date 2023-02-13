@@ -16,6 +16,11 @@
 	</div>
 
 	<div>
+		<label for='price'>Price</label>
+		{{ text_field('price', 'size': 32, "class": "form-control") }}
+	</div>
+
+	<div>
 		<label for='picture_url'>Picture url</label>
 		{{ file_field('picture_url', "class": "form-control", "id": "formFile") }}
 	</div>

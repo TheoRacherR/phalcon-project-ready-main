@@ -34,14 +34,14 @@
 				</div>
 
 				<span class="nav-item active">
-					<?= $this->tag->linkTo(['cart', 'Panier 🛒']) ?>
+					<?= $this->tag->linkTo(['cart', 'Cart 🛒']) ?>
 				</span>
 
 				<span class="nav-item active">
 					<?php if ($this->session->get('auth')) { ?>
-						<a href="/account/logout" class="btn btn-warning">Se déconnecter</a>
+						<a href="/account/logout" class="btn btn-warning">Logout</a>
 					<?php } else { ?>
-						<a class="nav-link" href="/account/login">Connectez vous<a>
+						<a class="nav-link" href="/account/login">Sign in<a>
 					<?php } ?>
 				</span>
 			</div>

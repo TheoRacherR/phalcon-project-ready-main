@@ -68,6 +68,7 @@ class AccountController extends ControllerBase
         if ($user) {
             if ($this->security->checkHash($password, $user->getPassword())) {
                 $this->session->set('auth', [
+                    'id' => $user->getId(),
                     'username' => $user->getUsername(),
                     'role' => $user->getRole()
                 ]);
@@ -85,6 +86,6 @@ class AccountController extends ControllerBase
         if ($this->session->get('auth')) {
             $this->session->destroy();
         }
-        $this->response->redirect('account/index');
+        $this->response->redirect('/');
     }
 }
