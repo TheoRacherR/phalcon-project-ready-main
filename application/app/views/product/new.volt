@@ -21,7 +21,7 @@
 	</div>
 
 	<div>
-		<label for='picture_url'>Picture url</label>
+		<label for='picture_url'>Picture</label>
 		{{ file_field('picture_url', "class": "form-control", "id": "formFile") }}
 	</div>
 
