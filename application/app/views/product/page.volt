@@ -21,7 +21,7 @@
 
     {# <p>Product id : {{ prod.id }}</p> #}
     <p>by {{ owner }}</p>
-    <div>{{ link_to("cart/add/" ~ product.id, "Ajouter", "class": "btn btn-success mb-3") }}</div>
+    <div>{{ link_to("cart/add/" ~ prod.id, "Ajouter", "class": "btn btn-success mb-3") }}</div>
     <p>Product category : {{  category }} </p>
     <p>Product sub_category : {{  sub_category }} </p> 
     {#<p>Product name : {{  prod.name }} </p>#}

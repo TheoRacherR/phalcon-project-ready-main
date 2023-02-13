@@ -36,7 +36,7 @@
             <td><?= $product->picture_url ?></td>
             
 
-                <td><?= $this->tag->linkTo(['cart/add/' . $product->id, 'Ajouter', 'class' => 'btn btn-success']) ?></td>
+                <td><?= $this->tag->linkTo(['cart/add/' . $product->id, 'Add to cart', 'class' => 'btn btn-success']) ?></td>
 
                 <td><?= $this->tag->linkTo(['product/page/' . $product->id, 'Page', 'class' => 'btn btn-primary']) ?></td>
                 <td><?= $this->tag->linkTo(['product/edit/' . $product->id, 'Edit', 'class' => 'btn btn-warning']) ?></td>

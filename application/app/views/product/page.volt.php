@@ -21,7 +21,7 @@
 
     
     <p>by <?= $owner ?></p>
-    <div><?= $this->tag->linkTo(['cart/add/' . $product->id, 'Ajouter', 'class' => 'btn btn-success mb-3']) ?></div>
+    <div><?= $this->tag->linkTo(['cart/add/' . $prod->id, 'Ajouter', 'class' => 'btn btn-success mb-3']) ?></div>
     <p>Product category : <?= $category ?> </p>
     <p>Product sub_category : <?= $sub_category ?> </p> 
     

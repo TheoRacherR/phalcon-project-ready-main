@@ -38,7 +38,7 @@
             {#<td>{{ date("d M Y", product.create_at)}}</td>
             <td>{{ date("d M Y", product.update_at)}}</td>#}
 
-                <td>{{ link_to("cart/add/" ~ product.id, "Ajouter", "class": "btn btn-success") }}</td>
+                <td>{{ link_to("cart/add/" ~ product.id, "Add to cart", "class": "btn btn-success") }}</td>
 
                 <td>{{ link_to("product/page/" ~ product.id, "Page", "class": "btn btn-primary") }}</td>
                 <td>{{ link_to("product/edit/" ~ product.id, "Edit", "class": "btn btn-warning") }}</td>

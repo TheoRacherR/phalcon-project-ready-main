@@ -84,7 +84,9 @@ class ProductController extends ControllerBase
             return;
         }
 
-        if (!$this->request->hasFiles()) {     
+        // var_dump($this->request->hasFiles());
+
+        if (!$this->request->hasFiles()) {
             $this->flash->error("no file");
             $this->response->redirect("product/");
 
@@ -103,16 +105,14 @@ class ProductController extends ControllerBase
         }
 
         $product = new Product();
-        $product->idOwner = 1;
-        $product->idSubCategory = $this->request->getPost("id_sub_category", "int");
+        $product->id_owner = $this->session->get('auth');
+        $product->id_sub_category = $this->request->getPost("id_sub_category");
         $product->name = $this->request->getPost("name");
         $product->description = $this->request->getPost("description");
         $product->stock = $this->request->getPost("stock", "int");
 
-        // 'images/' . 
         $pathForBdd = $file->getName();
         $product->picture_url = $pathForBdd;
-        // $product->pictureUrl = $this->request->getPost("picture_url");
 
         if (!$product->save()) {
             foreach ($product->getMessages() as $message) {
