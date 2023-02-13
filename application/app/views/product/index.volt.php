@@ -10,6 +10,20 @@
 
 <?= $this->getContent() ?>
 
+<?= $this->tag->form(['product/search', 'method' => 'post']) ?>
+
+	<div>
+		<label for='id_sub_category'>Categories</label>
+		<?= $this->tag->select(['id_sub_category', $categories, 'using' => ['id', 'name'], 'useEmpty' => true, 'emptyText' => '...', 'emptyValue' => '', 'class' => 'form-control']) ?>
+	</div>
+
+	<div>
+		<?= $this->tag->submitButton(['Search', 'class' => 'btn btn-primary mt-3']) ?>
+	</div>
+
+<?= $this->tag->endForm() ?>
+
+
 <div class="row">
     <table class="table table-bordered">
         <thead>

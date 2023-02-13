@@ -10,6 +10,31 @@
 
 {{ content() }}
 
+{{ form('product/search', 'method': 'post') }}
+
+	<div>
+		<label for='id_sub_category'>Categories</label>
+		{{ 
+            select([
+                    'id_sub_category', 
+                    categories, 
+                    'using': ['id', 'name'], 
+                    'useEmpty': true, 
+                    'emptyText': '...', 
+                    'emptyValue': '',
+                    "class": "form-control"
+                ]
+            ) 
+        }}
+	</div>
+
+	<div>
+		{{ submit_button('Search', "class": "btn btn-primary mt-3") }}
+	</div>
+
+{{ end_form() }}
+
+
 <div class="row">
     <table class="table table-bordered">
         <thead>

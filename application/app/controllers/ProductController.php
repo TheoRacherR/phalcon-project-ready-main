@@ -18,6 +18,9 @@ class ProductController extends ControllerBase
         $products = Product::find();
         $this->view->setVar("products", $products);
 
+        $categories = Category::find();
+        $this->view->setVar("categories", $categories);
+
     }
 
 
@@ -25,30 +28,49 @@ class ProductController extends ControllerBase
 
     public function searchAction()
     {
-            $numberPage = $this->request->getQuery('page', 'int', 1);
-            $parameters = Criteria::fromInput($this->di, 'Product', $_GET)->getParams();
-            $parameters['order'] = "id";
+            // $numberPage = $this->request->getQuery('page', 'int', 1);
+            // $parameters = Criteria::fromInput($this->di, 'Product', $_GET)->getParams();
+            // $parameters['order'] = "id";
 
-            $paginator = new Model(
-                    [
-                            'model' => 'Product',
-                            'parameters' => $parameters,
-                            'limit' => 10,
-                            'page' => $numberPage,
-                    ]
-            );
+            // $paginator = new Model(
+            //         [
+            //                 'model' => 'Product',
+            //                 'parameters' => $parameters,
+            //                 'limit' => 10,
+            //                 'page' => $numberPage,
+            //         ]
+            // );
 
-            $paginate = $paginator->paginate();
+            // $paginate = $paginator->paginate();
 
-            if (0 === $paginate->getTotalItems()) {
-                    $this->flash->notice("The search did not find any product");
+            // if (0 === $paginate->getTotalItems()) {
+            //         $this->flash->notice("The search did not find any product");
 
-                    $this->response->redirect("product/");
+            //         $this->response->redirect("product/");
 
-                    return;
+            //         return;
+            // }
+
+            // $this->view->page = $paginate;
+
+            //requete si la categorie existe
+            
+            if ($this->request->isPost()) {     
+                $filteredCategories = Category::findFirstById($this->request->getPost("id_sub_category", 'int'));
+                //die(var_dump($filteredCategories));
+                // $this->view->setVar("filteredCategories", $filteredCategories);
+
+                $productsF = Product::find(['id_sub_category' => $filteredCategories->id]);
+                // $productsF = Product::query()
+                //         ->where('id_sub_category = 2')
+                //         ->execute();
+                // die(var_dump($filteredCategories->id));
+                $this->view->setVar("productsF", $productsF);
             }
 
-            $this->view->page = $paginate;
+            $categories = Category::find();
+            $this->view->setVar("categories", $categories);
+
     }
 
 

@@ -27,12 +27,6 @@
 					<?= $this->tag->linkTo(['product/', 'Product']) ?>
 				</div>
 
-				<div class="collapse navbar-collapse">
-					<?php foreach ($this->session->get('auth') as $a) { ?>
-						<?= $a ?>
-					<?php } ?>
-				</div>
-
 				<span class="nav-item active">
 					<?= $this->tag->linkTo(['cart', 'Cart 🛒']) ?>
 				</span>

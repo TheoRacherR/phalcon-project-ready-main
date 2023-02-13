@@ -27,12 +27,6 @@
 					{{ link_to("product/", "Product") }}
 				</div>
 
-				<div class="collapse navbar-collapse">
-					{% for a in session.get('auth') %}
-						{{ a }}
-					{% endfor %}
-				</div>
-
 				<span class="nav-item active">
 					{{ link_to("cart", "Cart 🛒") }}
 				</span>
