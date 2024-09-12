@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @var \Phalcon\Mvc\View\Engine\Php $this
  */
@@ -84,4 +83,11 @@
             <?php echo $this->tag->submitButton(["Search", "class" => "btn btn-default"]) ?>
         </div>
     </div>
+
 </form>
+<h1>Account/index</h1>
+
+<?php if($this->session->get('auth')) {
+    echo '<a href="/account/logout" class="btn btn-warning">Se déconnecter</a>';
+}
+?>
